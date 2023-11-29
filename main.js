@@ -4,7 +4,17 @@ async function start() {
   populateImg(dogImg.message);
 }
 
+// async function startAnother() {
+//   let response2 = await fetch(
+//     "https://dog-facts-api.herokuapp.com/api/v1/resources/dogs/all"
+//   );
+//   let dogFact = await response2.json();
+//   populateFact(dogFact.fact);
+// }
+
 let dogPicture = $("#dogPicture");
+let dogInfo = $("#dogFact");
+
 function populateImg(image) {
   dogPicture.html(
     `<img src="${
@@ -15,7 +25,13 @@ function populateImg(image) {
   );
 }
 
+function populateFact(fact) {
+  dogInfo.html(`<p>${fact}</p>`);
+}
+
 let generateBtn = $("#generate");
 generateBtn.on("click", function () {
-  start();
-});
+  start()
+  // ,startAnother();
+}
+  );

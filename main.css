@@ -55,7 +55,11 @@ header {
   opacity: 1;
 }
 
-#dogPicture{
+img{
+  height: 400px;
+  width: auto;
   display: block;
   margin: 2rem auto;
+  border: 5px solid burlywood;
+  border-radius: 5px;
 }
