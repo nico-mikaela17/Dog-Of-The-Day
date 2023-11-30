@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DoggyDaily</title>
-    <link href="main.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet" />
     <script
       src="https://kit.fontawesome.com/71978fcef7.js"
       crossorigin="anonymous"
@@ -12,13 +12,60 @@
   </head>
   <body>
     <header>
-    <h1>DoggyDaily</h1>
-    <h2>Dog of the day and a fun fact</h2>
-  </header>
+      <h1>DoggyDaily</h1>
+      <h2>Dog of the day and a fun fact</h2>
+    </header>
+    <div id="groupOfDropDowns">
+      <div class="singleDropDown">
+        <h3>Shedding</h3>
+        <select id="sheddingDropDown">
+          <option value="">Select number</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="singleDropDown">
+        <h3>Playfulness</h3>
+        <select id="playfulnessDropDown">
+          <option value="">Select number</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="singleDropDown">
+        <h3>Trainability</h3>
+        <select id="trainabilityDropDown">
+          <option value="">Select number</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="singleDropDown">
+        <h3>Energy</h3>
+        <select id="energyDropDown">
+          <option value="">Select number</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+    </div>
     <button id="generate" class="button-23">Generate</button>
-    <div id="dogPicture">
-    <div id="dogFact"></div>
-      <!-- <i class="fa-regular fa-star"></i>
+    <div id="errorMessage"></div>
+    <div id="dogDiv"></div>
+
+    <!-- <i class="fa-regular fa-star"></i>
     </div>
     
     <button id="favorites"></button>
@@ -26,7 +73,6 @@
     <button id="previousDogs"></button>
     <button id="addComment"></button>
     <button id="addFact"></button>  -->
-    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
-    <script src="main.js" ></script>
+    <script src="main.js"></script>
   </body>
 </html>

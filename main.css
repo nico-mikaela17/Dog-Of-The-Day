@@ -9,6 +9,15 @@ header {
   background-color: burlywood;
 }
 
+#groupOfDropDowns{
+  display: flex;
+  margin: 2rem;
+}
+
+.singleDropDown{
+  padding: 0 3rem;
+}
+
 .button-23 {
   display: flex;
   background-color: #ffffff;
