@@ -1,48 +1,63 @@
 let apiUrl = "https://api.api-ninjas.com/v1/dogs?";
 
 function start(apiUrl) {
-  fetch(apiUrl,{
-    method: "GET", 
+  fetch(apiUrl, {
+    method: "GET",
     headers: {
-            "X-API-Key": "Fkx2KMLoA8Vpzwk9Lhwzjg==jS53MaNHG0MEepJO",
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => res.json())
-        .then((data) =>{
-          if (data.length === 0) showErrorMessage();
-          else populateDOM(data)
-        })
+      "X-API-Key": "Fkx2KMLoA8Vpzwk9Lhwzjg==jS53MaNHG0MEepJO",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.length === 0) 
+        showErrorMessage();
+      else 
+        populateDOM(data);
+      
+    })
+    .finally(() => {
+      // Hide the loading indicator after the request completes
+      hideLoadingIndicator();
+    });
+}
 
-  }
+let loadingIndicator = document.querySelector(".lds-ripple");
+let errorMessage = document.querySelector("#errorMessage");
+let dogDiv = document.querySelector("#dogDiv");
 
-  let errorMessage = document.querySelector('#errorMessage');
-  let dogDiv = document.querySelector("#dogDiv")
+function showLoadingIndicator() {
+  loadingIndicator.style.display = "block";
+}
 
-  function showErrorMessage(){
-    errorMessage.innerHTML = "";
-    errorMessage.style.display = "block";
-    dogDiv.style.display = "none";
+function hideLoadingIndicator() {
+  loadingIndicator.style.display = "none";
+}
 
-    let message = document.createElement("p");
-    message.textContent = "This dog is not available";
+function showErrorMessage() {
+  errorMessage.innerHTML = "";
+  errorMessage.style.display = "block";
+  dogDiv.style.display = "none";
 
-    errorMessage.appendChild(message);
-  }
+  let message = document.createElement("p");
+  message.textContent = "This dog is not available";
 
-  function populateDOM(dogsArr){
-    dogDiv.innerHTML = "";
-    dogDiv.style.display = "block";
-    errorMessage.style.display = "none";
+  errorMessage.appendChild(message);
+}
 
-    let randomIndex = Math.floor(Math.random() * dogsArr.length);
-    let randomDog = dogsArr[randomIndex];
+function populateDOM(dogsArr) {
+  dogDiv.innerHTML = "";
+  dogDiv.style.display = "block";
+  errorMessage.style.display = "none";
 
-    let img = document.createElement("img");
-    img.src = randomDog.image_link;
+  let randomIndex = Math.floor(Math.random() * dogsArr.length);
+  let randomDog = dogsArr[randomIndex];
 
-    dogDiv.appendChild(img);
-  }
+  let img = document.createElement("img");
+  img.src = randomDog.image_link;
+
+  dogDiv.appendChild(img);
+}
 
 //dropdowns
 let sheddingDropDown = document.querySelector("#sheddingDropDown");
@@ -54,8 +69,6 @@ let playfulnessDropDown = document.querySelector("#playfulnessDropDown");
 let trainabilityDropDown = document.querySelector("#trainabilityDropDown");
 
 let energyDropDown = document.querySelector("#energyDropDown");
-
-
 
 let generateBtn = document.getElementById("generate");
 
@@ -74,7 +87,6 @@ generateBtn.addEventListener("click", () => {
   }
   start(apiUrl);
 });
-
 
 // let dogInfo = $("#dogFact");
 // function populateFact(fact) {
