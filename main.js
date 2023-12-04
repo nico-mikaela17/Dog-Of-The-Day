@@ -10,11 +10,8 @@ function start(apiUrl) {
   })
     .then((res) => res.json())
     .then((data) => {
-      if (data.length === 0) 
-        showErrorMessage();
-      else 
-        populateDOM(data);
-      
+      if (data.length === 0) showErrorMessage();
+      else populateDOM(data);
     })
     .finally(() => {
       // Hide the loading indicator after the request completes
@@ -25,6 +22,7 @@ function start(apiUrl) {
 let loadingIndicator = document.querySelector(".lds-ripple");
 let errorMessage = document.querySelector("#errorMessage");
 let dogDiv = document.querySelector("#dogDiv");
+let imgAndBtnNext = document.querySelector("#imgAndBtnNext");
 
 function showLoadingIndicator() {
   loadingIndicator.style.display = "block";
@@ -37,10 +35,10 @@ function hideLoadingIndicator() {
 function showErrorMessage() {
   errorMessage.innerHTML = "";
   errorMessage.style.display = "block";
-  dogDiv.style.display = "none";
+  dogDiv.style.display = "block";
 
   let message = document.createElement("p");
-  message.textContent = "This dog is not available";
+  message.textContent = "This dog is not available :(";
 
   errorMessage.appendChild(message);
 }
@@ -50,13 +48,77 @@ function populateDOM(dogsArr) {
   dogDiv.style.display = "block";
   errorMessage.style.display = "none";
 
-  let randomIndex = Math.floor(Math.random() * dogsArr.length);
-  let randomDog = dogsArr[randomIndex];
+  // let randomIndex = Math.floor(Math.random() * dogsArr.length);
+  let index = 0;
+  let currentDogShowing = document.createElement("p");
+
+  currentDogShowing.textContent = `Currently showing ${index + 1} of ${
+    dogsArr.length
+  } dogs`;
+
+  let noMoreDogMessage = document.createElement("p");
+  noMoreDogMessage.innerHTML =
+    '<p class ="noMoreDogMessage">No more dogs to show :(</p>';
 
   let img = document.createElement("img");
-  img.src = randomDog.image_link;
+  img.src = dogsArr[index].image_link;
 
-  dogDiv.appendChild(img);
+  let arrowBtnNext = document.createElement("button");
+  arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
+
+  arrowBtnNext.addEventListener("click", () => {
+    index++;
+    console.log(index);
+    //IF we reah the END ...
+    if (index === dogsArr.length) {
+      img.style.display = "none";
+      currentDogShowing.style.display = "none";
+      // arrowBtnNext.style.display = "none";
+      noMoreDogMessage.style.display = "block";
+    }
+    //IF we on the slides? - showing dogs
+    else {
+      noMoreDogMessage.style.display = "none";
+      currentDogShowing.style.display = "block";
+      // arrowBtnNext.style.display = "flex";
+      img.style.display = "none";
+      img.src = dogsArr[index].image_link;
+      currentDogShowing.textContent = `Currently showing ${index + 1} of ${
+        dogsArr.length
+      } dogs`;
+    }
+  });
+
+  let arrowBtnPrev = document.createElement("button");
+  arrowBtnPrev.innerHTML = '<i class="fa-solid fa-caret-left"></i>';
+
+  arrowBtnPrev.addEventListener("click", () => {
+    index = index - 1;
+    console.log(index);
+    //IF we go back on the first dog
+    if (index === -1) {
+      img.style.display = "none";
+      arrowBtnPrev.style.display = "none";
+      currentDogShowing.style.display = "none";
+      noMoreDogMessage.style.display = "block";
+      arrowBtnNext.style = {};
+    } else {
+      currentDogShowing.style.display = "block";
+      arrowBtnPrev.style.display = "flex";
+      noMoreDogMessage.style.display = "none";
+      img.src = dogsArr[index].image_link;
+      currentDogShowing.textContent = `Currently showing ${index - 1} of ${
+        dogsArr.length
+      } dogs`;
+    }
+  });
+
+  imgAndBtnNext.appendChild(arrowBtnPrev);
+  imgAndBtnNext.appendChild(img);
+  imgAndBtnNext.appendChild(arrowBtnNext);
+  imgAndBtnNext.appendChild(noMoreDogMessage);
+  dogDiv.appendChild(imgAndBtnNext);
+  dogDiv.appendChild(currentDogShowing);
 }
 
 //dropdowns
