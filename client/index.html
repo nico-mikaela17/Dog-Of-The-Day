@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DoggyDaily</title>
+    <link href="./src/main.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/71978fcef7.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>DoggyDaily</h1>
+      <h2>Which dog fits you best?</h2>
+    </header>
+    <div id="groupOfDDandBtn">
+      <div id="groupOfDropDowns">
+        <div class="singleDropDown">
+          <h3>Shedding</h3>
+          <select id="sheddingDropDown">
+            <option value="">Select number</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="singleDropDown">
+          <h3>Playfulness</h3>
+          <select id="playfulnessDropDown">
+            <option value="">Select number</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="singleDropDown">
+          <h3>Trainability</h3>
+          <select id="trainabilityDropDown">
+            <option value="">Select number</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="singleDropDown">
+          <h3>Energy</h3>
+          <select id="energyDropDown">
+            <option value="">Select number</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
+      <button id="generate" class="button-23">Find</button>
+      <!-- <label for="breedsInput">What's your favorite breed?</label>
+      <input id="breedsInput" type="text" name="breedsDropDown" placeholder="Breed Name Here"></input>
+      <input type="submit" id="breedsInputBtn"></input> -->
+    </div>
+    <div id="errorMessage" class="hidden"></div>
+    <div id="dogDiv">
+      <div id="imgAndBtnNext"></div>
+    </div>
+    <div class="lds-ripple">
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- <i class="fa-regular fa-star"></i>
+    </div>
+    
+    <button id="favorites"></button>
+    <button id="stop"></button>
+    <button id="previousDogs"></button>
+    <button id="addComment"></button>
+    <button id="addFact"></button>  -->
+    <script src="./src/main.js"></script>
+  </body>
+</html>
