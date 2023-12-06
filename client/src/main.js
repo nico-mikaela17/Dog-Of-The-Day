@@ -10,27 +10,27 @@ function start(apiUrl) {
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       if (data.length === 0) showErrorMessage();
       else populateDOM(data);
     })
     .finally(() => {
       // Hide the loading indicator after the request completes
-      hideLoadingIndicator();
+      // hideLoadingIndicator();
     });
 }
 
-let loadingIndicator = document.querySelector(".lds-ripple");
+// let loadingIndicator = document.querySelector(".lds-ripple");
 let errorMessage = document.querySelector("#errorMessage");
 let dogDiv = document.querySelector("#dogDiv");
-let imgAndBtnNext = document.querySelector("#imgAndBtnNext");
 
-function showLoadingIndicator() {
-  loadingIndicator.style.display = "block";
-}
+// function showLoadingIndicator() {
+//   loadingIndicator.style.display = "block";
+// }
 
-function hideLoadingIndicator() {
-  loadingIndicator.style.display = "none";
-}
+// function hideLoadingIndicator() {
+//   loadingIndicator.style.display = "none";
+// }
 
 function showErrorMessage() {
   errorMessage.innerHTML = "";
@@ -43,9 +43,15 @@ function showErrorMessage() {
   errorMessage.appendChild(message);
 }
 
+// let makeFavBtn = document.querySelector('#makeFavBtn');
+let commentDiv = document.querySelector("#commentDiv");
+let dogComment = document.querySelector("#dogComment");
+let favoriteBtn = document.querySelector("#favoriteBtn");
+
 function populateDOM(dogsArr) {
   dogDiv.style.display = "block";
-  imgAndBtnNext.innerHTML = "";
+  dogDiv.innerHTML = "";
+  let imgAndBtnNext = document.createElement("div");
   errorMessage.style.display = "none";
 
   // let randomIndex = Math.floor(Math.random() * dogsArr.length);
@@ -65,8 +71,21 @@ function populateDOM(dogsArr) {
   let img = document.createElement("img");
   img.src = dogsArr[index].image_link;
   imgAndBtnNext.appendChild(img);
+
+  let makeFavBtn = document.createElement("button");
+  makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
+  makeFavBtn.classList.add("button-23");
+  makeFavBtn.addEventListener("click", () => {
+    commentDiv.classList.toggle("hidden");
+  });
+  favoriteBtn.addEventListener("click", () => {
+    saveFavorite(dogsArr[index]);
+    dogComment.value = "";
+    commentDiv.classList.toggle("hidden");
+  });
+  imgAndBtnNext.appendChild(makeFavBtn);
   dogDiv.appendChild(imgAndBtnNext);
-}     
+}
 //   let arrowBtnNext = document.createElement("button");
 //   arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
 
@@ -123,7 +142,31 @@ function populateDOM(dogsArr) {
 
 // }
 
-// //dropdowns
+fetch("/api/dogs")
+  .then((res) => res.json())
+  .then((data) => populateDog(data));
+
+let dogGallery = document.querySelector("#dogGallery");
+function populateDog(dogData) {
+  console.log(dogData);
+}
+
+function saveFavorite(favDog) {
+  fetch("/api/dog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      dog: favDog,
+      comment: dogComment.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+}
+
+//dropdowns
 let sheddingDropDown = document.querySelector("#sheddingDropDown");
 sheddingDropDown.value;
 console.log(sheddingDropDown.value);
