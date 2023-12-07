@@ -24,14 +24,6 @@ function start(apiUrl) {
 let errorMessage = document.querySelector("#errorMessage");
 let dogDiv = document.querySelector("#dogDiv");
 
-// function showLoadingIndicator() {
-//   loadingIndicator.style.display = "block";
-// }
-
-// function hideLoadingIndicator() {
-//   loadingIndicator.style.display = "none";
-// }
-
 function showErrorMessage() {
   errorMessage.innerHTML = "";
   errorMessage.classList.toggle("hidden");
@@ -52,6 +44,7 @@ function populateDOM(dogsArr) {
   dogDiv.style.display = "block";
   dogDiv.innerHTML = "";
   let imgAndBtnNext = document.createElement("div");
+  imgAndBtnNext.classList.add("imgAndBtnNext");
   errorMessage.style.display = "none";
 
   // let randomIndex = Math.floor(Math.random() * dogsArr.length);
@@ -74,7 +67,7 @@ function populateDOM(dogsArr) {
 
   let makeFavBtn = document.createElement("button");
   makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
-  makeFavBtn.classList.add("button-23");
+  makeFavBtn.classList.add("button-23", "makeFavBtn");
   makeFavBtn.addEventListener("click", () => {
     commentDiv.classList.toggle("hidden");
   });
@@ -148,7 +141,73 @@ fetch("/api/dogs")
 
 let dogGallery = document.querySelector("#dogGallery");
 function populateDog(dogData) {
+  dogGallery.innerHTML = "";
   console.log(dogData);
+  dogData.forEach((dog) => {
+    //create card
+    let dogCard = document.createElement("div");
+    dogCard.classList.add("dogCard");
+
+    //delete button
+    let removeCardBtn = document.createElement("button"); //delete button
+    removeCardBtn.innerHTML = '<i class="fa-solid fa-delete-left"></i>';
+    removeCardBtn.style.border = "none";
+    removeCardBtn.style.float = "right";
+    removeCardBtn.style.cursor = "pointer";
+    removeCardBtn.style.backgroundColor = "white";
+    // removeCardBtn.onclick = function () {
+    // removeTaskFromList(displayTodo.todoID);
+    // };
+    dogCard.appendChild(removeCardBtn);
+
+    //edit button
+    let editCommentBtn = document.createElement("button"); //delete button
+    editCommentBtn.innerHTML = '<i class="fa-solid fa-comment"></i>';
+    editCommentBtn.style.border = "none";
+    editCommentBtn.style.float = "left";
+    editCommentBtn.style.cursor = "pointer";
+    editCommentBtn.style.backgroundColor = "white";
+    // removeCardBtn.onclick = function () {
+    // removeTaskFromList(displayTodo.todoID);
+    // };
+    dogCard.appendChild(editCommentBtn);
+
+    let dogImg = document.createElement("img");
+    dogImg.src = dog.dogInfo.image_link;
+    dogCard.appendChild(dogImg);
+
+    let dogName = document.createElement("h3");
+    dogName.textContent = dog.dogInfo.name; //task title
+    dogCard.appendChild(dogName);
+
+    let sheddingInfo = document.createElement("h5");
+    sheddingInfo.textContent = `Shedding: ${dog.dogInfo.shedding}`; //task title
+    dogCard.appendChild(sheddingInfo);
+
+    let playfulnessInfo = document.createElement("h5");
+    playfulnessInfo.textContent = `Playfulness: ${dog.dogInfo.playfulness}`; //task title
+    dogCard.appendChild(playfulnessInfo);
+
+    let trainabilityInfo = document.createElement("h5");
+    trainabilityInfo.textContent = `Trainability: ${dog.dogInfo.trainability}`; //task title
+    dogCard.appendChild(trainabilityInfo);
+
+    let energyInfo = document.createElement("h5");
+    energyInfo.textContent = `Energy: ${dog.dogInfo.energy}`; //task title
+    dogCard.appendChild(energyInfo);
+
+    let dogComment = document.createElement("div");
+    dogComment.style.backgroundColor = '#efefef';
+    dogComment.style.padding = '10px 7px 0';
+    dogComment.style.height = '50px';
+    dogComment.style.borderRadius = '5px';
+
+
+    dogComment.textContent = dog.comment;
+    dogCard.append(dogComment)
+
+    dogGallery.appendChild(dogCard);
+  });
 }
 
 function saveFavorite(favDog) {
@@ -163,7 +222,7 @@ function saveFavorite(favDog) {
     }),
   })
     .then((res) => res.json())
-    .then((data) => console.log(data));
+    .then((data) => populateDog(data));
 }
 
 //dropdowns
