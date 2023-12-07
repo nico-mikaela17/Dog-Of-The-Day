@@ -168,7 +168,7 @@ img {
   display: block;
 }
 
-#dogDiv p{
+#dogDiv p {
   text-transform: uppercase;
   font-size: 24px;
   font-weight: bold;
@@ -200,17 +200,17 @@ img {
   display: none;
 }
 
-.dogCard{
-  width: 190px;
+.dogCard {
+  width: 250px;
   background: white;
-  padding: .4em;
+  padding: 0.4em;
   border-radius: 6px;
 }
 
 .dogCard img {
   background-color: rgb(236, 236, 236);
   width: 100%;
-  height: 130px;
+  height: auto;
   border-radius: 6px 6px 0 0;
   border: white;
 }
@@ -219,16 +219,20 @@ img {
   transform: scale(0.98);
 }
 
-.dogCard h5{
+.dogCard h3 {
+  padding: 10px 7px 0;
+}
+
+.dogCard h5 {
   text-transform: uppercase;
   font-size: 0.7em;
   font-weight: 600;
   color: rgb(47, 64, 64);
-  padding: 10px 7px 0;
+  padding: 3px 7px 0;
 }
 
-#dogGallery{
-  display:flex;
+#dogGallery {
+  display: flex;
   justify-content: space-around;
 }
 /* 

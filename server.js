@@ -40,12 +40,7 @@ let favDog = [
     },
   },
 ];
-//Create a saved dog (card?) - POST
-// Update - PUT
-// Read - GET
-// Delete - DELETE
 
-// LISTEN
 app.listen(port, () => {
   console.log(`Dog app listening on port ${port}`);
 });
@@ -62,5 +57,16 @@ app.post("/api/dog", (req, res) => {
   };
   favDog.push(newDog);
 
+  res.send(favDog);
+});
+
+app.put("/api/dog", (req, res) => {
+  let dogIndex = favDog.findIndex((dog) => dog.id === Number(req.body.id));
+  favDog[dogIndex].comment = req.body.comment;
+  res.send(favDog);
+});
+
+app.delete("/api/dog", (req, res) => {
+  favDog = favDog.filter((dog) => dog.id !== Number(req.body.id));
   res.send(favDog);
 });

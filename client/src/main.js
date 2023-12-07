@@ -14,13 +14,9 @@ function start(apiUrl) {
       if (data.length === 0) showErrorMessage();
       else populateDOM(data);
     })
-    .finally(() => {
-      // Hide the loading indicator after the request completes
-      // hideLoadingIndicator();
-    });
+    .finally(() => {});
 }
 
-// let loadingIndicator = document.querySelector(".lds-ripple");
 let errorMessage = document.querySelector("#errorMessage");
 let dogDiv = document.querySelector("#dogDiv");
 
@@ -142,7 +138,7 @@ fetch("/api/dogs")
 let dogGallery = document.querySelector("#dogGallery");
 function populateDog(dogData) {
   dogGallery.innerHTML = "";
-  console.log(dogData);
+  //console.log(dogData);
   dogData.forEach((dog) => {
     //create card
     let dogCard = document.createElement("div");
@@ -155,21 +151,22 @@ function populateDog(dogData) {
     removeCardBtn.style.float = "right";
     removeCardBtn.style.cursor = "pointer";
     removeCardBtn.style.backgroundColor = "white";
-    // removeCardBtn.onclick = function () {
-    // removeTaskFromList(displayTodo.todoID);
-    // };
+    removeCardBtn.addEventListener("click", () => {
+      if (confirm("Do you want to remove this dog from your Favorites?")) {
+        console.log("hello");
+        deleteDog(dog.id);
+      }
+    });
     dogCard.appendChild(removeCardBtn);
 
     //edit button
     let editCommentBtn = document.createElement("button"); //delete button
-    editCommentBtn.innerHTML = '<i class="fa-solid fa-comment"></i>';
+    editCommentBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
     editCommentBtn.style.border = "none";
-    editCommentBtn.style.float = "left";
+    editCommentBtn.style.float = "right";
     editCommentBtn.style.cursor = "pointer";
-    editCommentBtn.style.backgroundColor = "white";
-    // removeCardBtn.onclick = function () {
-    // removeTaskFromList(displayTodo.todoID);
-    // };
+    editCommentBtn.style.backgroundColor = "efefef";
+    editCommentBtn.style.marginBottom = "5px";
     dogCard.appendChild(editCommentBtn);
 
     let dogImg = document.createElement("img");
@@ -196,16 +193,48 @@ function populateDog(dogData) {
     energyInfo.textContent = `Energy: ${dog.dogInfo.energy}`; //task title
     dogCard.appendChild(energyInfo);
 
-    let dogComment = document.createElement("div");
-    dogComment.style.backgroundColor = '#efefef';
-    dogComment.style.padding = '10px 7px 0';
-    dogComment.style.height = '50px';
-    dogComment.style.borderRadius = '5px';
+    let dogCommentDisplay = document.createElement("div");
+    dogCommentDisplay.textContent = dog.comment;
+    dogCommentDisplay.style.backgroundColor = "#efefef";
+    dogCommentDisplay.style.padding = "10px 7px 0";
+    dogCommentDisplay.style.height = "50px";
+    dogCommentDisplay.style.width = "94%";
+    dogCommentDisplay.style.borderRadius = "5px";
 
+    let dogTextarea = document.createElement("textarea");
+    dogTextarea.style.backgroundColor = "#efefef";
+    dogTextarea.classList.add("hidden");
 
-    dogComment.textContent = dog.comment;
-    dogCard.append(dogComment)
+    let saveBtn = document.createElement("button");
+    saveBtn.textContent = "Save";
+    saveBtn.classList.add("button-23", "hidden", "saveBtn");
 
+    editCommentBtn.addEventListener("click", () => {
+      dogTextarea.classList.toggle("hidden");
+      dogTextarea.placeholder = dog.comment;
+      dogCommentDisplay.classList.toggle("hidden");
+      saveBtn.classList.toggle("hidden");
+    });
+
+    saveBtn.addEventListener("click", () => {
+      editComment(dog.id, dogTextarea.value);
+    });
+
+    // makeFavBtn.addEventListener("click", () => {
+    //   commentDiv.classList.toggle("hidden");
+    // });
+    // favoriteBtn.addEventListener("click", () => {
+    //   saveFavorite(dogsArr[index]);
+    //   dogComment.value = "";
+    //   commentDiv.classList.toggle("hidden");
+    // });
+
+    dogCard.append(editCommentBtn);
+    dogCommentDisplay.appendChild(editCommentBtn);
+
+    dogCard.append(dogCommentDisplay);
+    dogCard.append(dogTextarea);
+    dogCard.append(saveBtn);
     dogGallery.appendChild(dogCard);
   });
 }
@@ -219,6 +248,38 @@ function saveFavorite(favDog) {
     body: JSON.stringify({
       dog: favDog,
       comment: dogComment.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => populateDog(data));
+}
+
+function editComment(id, comment) {
+  fetch("/api/dog", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      id: id,
+      comment: comment,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      populateDog(data);
+    });
+}
+
+function deleteDog(id) {
+  fetch("/api/dog", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      id: id,
     }),
   })
     .then((res) => res.json())
