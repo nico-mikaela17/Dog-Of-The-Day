@@ -11,7 +11,7 @@ function start(apiUrl) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      if (data.length === 0) showErrorMessage();
+      if (data.length === 0 || data.error) showErrorMessage();
       else populateDOM(data);
     })
     .finally(() => {});
@@ -26,7 +26,7 @@ function showErrorMessage() {
   dogDiv.classList.toggle("hidden");
 
   let message = document.createElement("p");
-  message.textContent = "This dog is not available :(";
+  message.textContent = "No dogs here :(";
 
   errorMessage.appendChild(message);
 }
@@ -61,7 +61,7 @@ function populateDOM(dogsArr) {
   let img = document.createElement("img");
   img.src = dogsArr[index].image_link;
   imgAndBtnNext.appendChild(img);
-
+  
   let makeFavBtn = document.createElement("button");
   makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
   makeFavBtn.classList.add("button-23", "makeFavBtn");
@@ -74,6 +74,7 @@ function populateDOM(dogsArr) {
     commentDiv.classList.toggle("hidden");
   });
   imgAndBtnNext.appendChild(makeFavBtn);
+
   dogDiv.appendChild(imgAndBtnNext);
 }
 //   let arrowBtnNext = document.createElement("button");
