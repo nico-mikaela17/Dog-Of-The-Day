@@ -51,6 +51,7 @@ function populateDOM(dogsArr) {
     imgAndBtnNext.appendChild(noMoreDogMessage);
   } else {
     let currentDogShowing = document.createElement("p");
+    currentDogShowing.classList.add("currentDogShowing");
     currentDogShowing.textContent = `Currently showing ${index + 1} of ${
       dogsArr.length
     } dogs`;
@@ -136,6 +137,10 @@ fetch("/api/dogs")
   .then((data) => populateDog(data));
 
 let dogGallery = document.querySelector("#dogGallery");
+// let favDogsTitle = document.createElement("h2");
+// favDogsTitle.textContent = "Favorite Dogs";
+// dogGallery.appendChild(favDogsTitle);
+
 function populateDog(dogData) {
   dogGallery.innerHTML = "";
   //console.log(dogData);
