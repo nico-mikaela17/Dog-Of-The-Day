@@ -69,7 +69,10 @@
         </div>
       </div>
       <button id="generate" class="button-23">Find</button>
-      <button id="showFavs" class="button-23"><a href="#dogGallery">Go to Favorites</a></button>
+      <button id="clearFilterBtn" class="button-23">Clear Filters</button>
+      <button id="showFavs" class="button-23">
+        <a href="#dogGallery">Go to Favorites</a>
+      </button>
       <!-- <label for="breedsInput">What's your favorite breed?</label>
       <input id="breedsInput" type="text" name="breedsDropDown" placeholder="Breed Name Here"></input>
       <input type="submit" id="breedsInputBtn"></input> -->
@@ -85,12 +88,10 @@
       />
       <button id="favoriteBtn">Add to Favorites</button>
     </div>
-    <div>
+    <div id="dogGallerySection">
       <h2>Favorite Dogs</h2>
-
-    <div id="dogGallery">
+      <div id="dogGallery"></div>
     </div>
-  </div>
     <script src="./src/main.js"></script>
   </body>
 </html>

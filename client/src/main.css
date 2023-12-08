@@ -144,16 +144,35 @@ a {
   text-align: center;
 }
 
+#dogDiv img{
+  height: 375px;
+  width: auto;
+}
+
 .imgAndBtnNext {
   column-gap: 20px;
   display: flex;
   justify-content: center;
-}
-.imgAndBtnNext img {
-  margin: 5px;
+  height: auto;
 }
 
-.imgAndBtnNext button {
+.imgAndFavBtn{
+  position: relative;
+}
+
+.imgAndFavBtn button {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  font-size: 18px;
+  padding: 1.5rem 1rem;
+  touch-action: manipulation;
+  transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
+    transform 0.1s;
+    height: 40px;
+}
+
+/* .imgAndBtnNext button {
   position: absolute;
   top: 44%;
   left: 64.5%;
@@ -171,7 +190,7 @@ a {
   -webkit-user-select: none;
   height: 40px;
   margin: 4rem 0.5rem;
-}
+} */
 
 #commentDiv input {
   width: 100%;
@@ -189,7 +208,12 @@ a {
   display: none;
 }
 
-div h2 {
+#dogGallerySection {
+  margin-top: 10rem;
+  padding-top: 5rem;
+}
+
+#dogGallerySection h2 {
   text-align: center;
   background-color: #deb887;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

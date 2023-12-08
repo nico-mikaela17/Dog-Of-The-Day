@@ -40,7 +40,9 @@ function populateDOM(dogsArr) {
   dogDiv.style.display = "block";
   dogDiv.innerHTML = "";
   let imgAndBtnNext = document.createElement("div");
+  let imgAndFavBtn = document.createElement("div");
   imgAndBtnNext.classList.add("imgAndBtnNext");
+  imgAndFavBtn.classList.add('imgAndFavBtn')
   errorMessage.style.display = "none";
 
   // let randomIndex = Math.floor(Math.random() * dogsArr.length);
@@ -60,8 +62,8 @@ function populateDOM(dogsArr) {
 
   let img = document.createElement("img");
   img.src = dogsArr[index].image_link;
-  imgAndBtnNext.appendChild(img);
-  
+  imgAndFavBtn.appendChild(img);
+
   let makeFavBtn = document.createElement("button");
   makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
   makeFavBtn.classList.add("button-23", "makeFavBtn");
@@ -73,9 +75,11 @@ function populateDOM(dogsArr) {
     dogComment.value = "";
     commentDiv.classList.toggle("hidden");
   });
-  imgAndBtnNext.appendChild(makeFavBtn);
+  imgAndFavBtn.appendChild(makeFavBtn);
 
+  imgAndBtnNext.appendChild(imgAndFavBtn)
   dogDiv.appendChild(imgAndBtnNext);
+
 }
 //   let arrowBtnNext = document.createElement("button");
 //   arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
@@ -141,6 +145,14 @@ let dogGallery = document.querySelector("#dogGallery");
 // let favDogsTitle = document.createElement("h2");
 // favDogsTitle.textContent = "Favorite Dogs";
 // dogGallery.appendChild(favDogsTitle);
+
+let clearFilterBtn = document.querySelector("#clearFilterBtn");
+clearFilterBtn.addEventListener("click", () => {
+  sheddingDropDown.value = "";
+  playfulnessDropDown.value = "";
+  trainabilityDropDown.value = "";
+  energyDropDown.value = "";
+});
 
 function populateDog(dogData) {
   dogGallery.innerHTML = "";
@@ -226,15 +238,6 @@ function populateDog(dogData) {
       editComment(dog.id, dogTextarea.value);
     });
 
-    // makeFavBtn.addEventListener("click", () => {
-    //   commentDiv.classList.toggle("hidden");
-    // });
-    // favoriteBtn.addEventListener("click", () => {
-    //   saveFavorite(dogsArr[index]);
-    //   dogComment.value = "";
-    //   commentDiv.classList.toggle("hidden");
-    // });
-
     dogCard.append(editCommentBtn);
     dogCommentDisplay.appendChild(editCommentBtn);
 
@@ -305,6 +308,7 @@ let energyDropDown = document.querySelector("#energyDropDown");
 
 let generateBtn = document.getElementById("generate");
 
+//after clicking find
 generateBtn.addEventListener("click", () => {
   if (sheddingDropDown.value !== "") {
     apiUrl = apiUrl + "shedding=" + sheddingDropDown.value;
@@ -320,105 +324,3 @@ generateBtn.addEventListener("click", () => {
   }
   start(apiUrl);
 });
-
-// let breedsInputBtn = document.querySelector("#breedsInputBtn");
-// let breedsInput = document.querySelector("#breedsInput");
-
-// breedsInputBtn.addEventListener("click", () => {
-//   if (breedsInput.value != "") {
-//     apiUrl = apiUrl + "name=" + breedsInput.value.toLowerCase();
-//   }
-//   start(apiUrl);
-// });
-
-// function showBreeds() {
-//   let breedsDropDown = document.querySelector("#breedsDropDown");
-//   breedsDropDown.innerHTML = '<option value="">Please Select</option>';
-//   console.log(apiUrl)
-
-//   for (let dog of apiUrl) {
-//     let breedName = document.createElement("option");
-//     breedName.value = dog.name;
-//     breedName.textContent = dog.name;
-
-//     breedsDropDown.appendChild(breedName);
-//   }
-// }
-// showBreeds();
-
-// let dogInfo = $("#dogFact");
-// function populateFact(fact) {
-//   dogInfo.html(`<p>${fact}</p>`);
-// }
-
-// function removeChildren(container) {
-//   while (container.firstChild) {
-//     container.removeChild(container.firstChild);
-//   }
-// }
-
-// const getAPIData = async (url) => {
-//   try {
-//     const result = await fetch(url);
-//     return await result.json();
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-// class Dog {
-//   constructor(
-//     name,
-//     playfulness,
-//     protectiveness,
-//     trainability,
-//     energy,
-//     max_life_expectancy
-//   ) {
-//     (this.name = name),
-//       (this.playfulness = playfulness),
-//       (this.protectiveness = protectiveness),
-//       (this.trainability = trainability),
-//       (this.energy = energy),
-//       (this.max_life_expectancy = max_life_expectancy);
-//   }
-// }
-
-// const loadedDog = [];
-
-// let generateBtn = $("#generate");
-// generateBtn.on("click", async () => {
-//   if (loadedDog.length === 0) {
-//     removeChildren($("body"));
-//     await loadDogs(0, 50);
-//   }
-// });
-
-// name: singleDog.name,
-//       playfulness: singleDog.playfulness,
-//       protectiveness: singleDog.protectiveness,
-//       trainability: singleDog.trainability,
-//       energy: singleDog.energy,
-//       max_life_expectancy:
-
-// async function loadDogs(offset = 0, limit = 25) {
-//   const data = await getAPIData(
-//     `https://api.api-ninjas.com/v1/dogs?offset=${offset}&limit=${limit}`
-//   );
-//   for (const nameAndUrl of data.results) {
-//     const singleDog = await getAPIData(nameAndUrl.url);
-//     const simplifiedDog = {
-//       name: singleDog.name,
-//       playfulness: singleDog.playfulness,
-//       protectiveness: singleDog.protectiveness,
-//       trainability: singleDog.trainability,
-//       energy: singleDog.energy,
-//       max_life_expectancy: singleDog.max_life_expectancy,
-//     };
-//     loadedPokemon.push(simplifiedDog);
-//     populatePokeCard(simplifiedDog);
-//   }
-// }
-
-//  const pokeHeader = document.querySelector('header')
-//  const pokeNav = document.querySelector('nav')
