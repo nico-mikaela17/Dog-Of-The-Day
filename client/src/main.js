@@ -1,5 +1,26 @@
+//grab elements
 let apiUrl = "https://api.api-ninjas.com/v1/dogs?";
+let errorMessage = document.querySelector("#errorMessage");
+let dogDiv = document.querySelector("#dogDiv");
+let commentDiv = document.querySelector("#commentDiv");
+let dogComment = document.querySelector("#dogComment");
+let favoriteBtn = document.querySelector("#favoriteBtn");
+let dogGallery = document.querySelector("#dogGallery");
+let clearFilterBtn = document.querySelector("#clearFilterBtn");
+let searchIcon = document.querySelector(".fa-magnifying-glass");
+searchIcon.style.cursor = "pointer";
+let searchInput = document.querySelector("#breed");
 
+//dropDowns
+let sheddingDropDown = document.querySelector("#sheddingDropDown");
+let playfulnessDropDown = document.querySelector("#playfulnessDropDown");
+let trainabilityDropDown = document.querySelector("#trainabilityDropDown");
+let energyDropDown = document.querySelector("#energyDropDown");
+
+//find button
+let generateBtn = document.getElementById("generate");
+
+//fetch from the dogAPI
 function start(apiUrl) {
   fetch(apiUrl, {
     method: "GET",
@@ -17,35 +38,47 @@ function start(apiUrl) {
     .finally(() => {});
 }
 
-let errorMessage = document.querySelector("#errorMessage");
-let dogDiv = document.querySelector("#dogDiv");
+//dropdowns
+sheddingDropDown.value;
+console.log(sheddingDropDown.value);
 
+//after clicking find
+generateBtn.addEventListener("click", () => {
+  if (sheddingDropDown.value !== "") {
+    apiUrl = apiUrl + "shedding=" + sheddingDropDown.value;
+  }
+  if (playfulnessDropDown.value !== "") {
+    apiUrl = apiUrl + "&playfulness=" + playfulnessDropDown.value;
+  }
+  if (trainabilityDropDown.value !== "") {
+    apiUrl = apiUrl + "&trainability=" + trainabilityDropDown.value;
+  }
+  if (energyDropDown.value !== "") {
+    apiUrl = apiUrl + "&energy=" + energyDropDown.value;
+  }
+  start(apiUrl);
+});
+
+//If I can't find the dog I'm looking for
 function showErrorMessage() {
   errorMessage.innerHTML = "";
   errorMessage.classList.toggle("hidden");
   dogDiv.classList.toggle("hidden");
-
   let message = document.createElement("p");
   message.textContent = "No dogs here :(";
-
   errorMessage.appendChild(message);
 }
 
-// let makeFavBtn = document.querySelector('#makeFavBtn');
-let commentDiv = document.querySelector("#commentDiv");
-let dogComment = document.querySelector("#dogComment");
-let favoriteBtn = document.querySelector("#favoriteBtn");
-
+//show a dog after I click find
 function populateDOM(dogsArr) {
   dogDiv.style.display = "block";
   dogDiv.innerHTML = "";
   let imgAndBtnNext = document.createElement("div");
   let imgAndFavBtn = document.createElement("div");
   imgAndBtnNext.classList.add("imgAndBtnNext");
-  imgAndFavBtn.classList.add('imgAndFavBtn')
+  imgAndFavBtn.classList.add("imgAndFavBtn");
   errorMessage.style.display = "none";
 
-  // let randomIndex = Math.floor(Math.random() * dogsArr.length);
   let index = 0;
   if (dogsArr.length === 0) {
     let noMoreDogMessage = document.createElement("p");
@@ -60,9 +93,28 @@ function populateDOM(dogsArr) {
     dogDiv.appendChild(currentDogShowing);
   }
 
+  // let modalContainer = document.createElement("div");
+  // let modalContent = document.createElement("div");
+  // let modalToggle = document.querySelector('.modal-toggle')
   let img = document.createElement("img");
   img.src = dogsArr[index].image_link;
+  // img.addEventListener("click", () => {
+  //   modalToggle.classList.toggle("hidden");
+  //   let breed = document.createElement("h2");
+  //   breed.textContent = dogsArr[index].name;
+  //   let horizontalLine = document.createElement('hr');
+  //   let moreDogInfo = document.createElement('p');
+  //   moreDogInfo.innerHTML = `Shedding ${dogsArr[index].shedding}`
+  //   modalContent.appendChild(breed);
+  //   modalContent.appendChild(horizontalLine)
+  //   modalContent.appendChild(moreDogInfo)
+  // });
   imgAndFavBtn.appendChild(img);
+  // modalContainer.appendChild(modalContent);
+
+  let breed = document.createElement("h3");
+  breed.textContent = dogsArr[index].name;
+  imgAndFavBtn.appendChild(breed);
 
   let makeFavBtn = document.createElement("button");
   makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
@@ -75,11 +127,20 @@ function populateDOM(dogsArr) {
     dogComment.value = "";
     commentDiv.classList.toggle("hidden");
   });
+  // imgAndFavBtn.appendChild(modalContainer);
   imgAndFavBtn.appendChild(makeFavBtn);
-
-  imgAndBtnNext.appendChild(imgAndFavBtn)
+  imgAndBtnNext.appendChild(imgAndFavBtn);
   dogDiv.appendChild(imgAndBtnNext);
 
+  //search a dog by the breed name
+  searchIcon.addEventListener("click", () => {
+    console.log("button works");
+    if (searchInput.value.toLowerCase === dogsArr.name) {
+      populateDOM(dogsArr);
+    } else {
+      showErrorMessage();
+    }
+  });
 }
 //   let arrowBtnNext = document.createElement("button");
 //   arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
@@ -137,16 +198,11 @@ function populateDOM(dogsArr) {
 
 // }
 
-fetch("/api/dogs")
-  .then((res) => res.json())
-  .then((data) => populateDog(data));
-
-let dogGallery = document.querySelector("#dogGallery");
 // let favDogsTitle = document.createElement("h2");
 // favDogsTitle.textContent = "Favorite Dogs";
 // dogGallery.appendChild(favDogsTitle);
 
-let clearFilterBtn = document.querySelector("#clearFilterBtn");
+//clear filter dropdowns
 clearFilterBtn.addEventListener("click", () => {
   sheddingDropDown.value = "";
   playfulnessDropDown.value = "";
@@ -154,6 +210,7 @@ clearFilterBtn.addEventListener("click", () => {
   energyDropDown.value = "";
 });
 
+//to create the fav card
 function populateDog(dogData) {
   dogGallery.innerHTML = "";
   //console.log(dogData);
@@ -248,6 +305,11 @@ function populateDog(dogData) {
   });
 }
 
+//get data from the back back
+fetch("/api/dogs")
+  .then((res) => res.json())
+  .then((data) => populateDog(data));
+
 function saveFavorite(favDog) {
   fetch("/api/dog", {
     method: "POST",
@@ -294,33 +356,3 @@ function deleteDog(id) {
     .then((res) => res.json())
     .then((data) => populateDog(data));
 }
-
-//dropdowns
-let sheddingDropDown = document.querySelector("#sheddingDropDown");
-sheddingDropDown.value;
-console.log(sheddingDropDown.value);
-
-let playfulnessDropDown = document.querySelector("#playfulnessDropDown");
-
-let trainabilityDropDown = document.querySelector("#trainabilityDropDown");
-
-let energyDropDown = document.querySelector("#energyDropDown");
-
-let generateBtn = document.getElementById("generate");
-
-//after clicking find
-generateBtn.addEventListener("click", () => {
-  if (sheddingDropDown.value !== "") {
-    apiUrl = apiUrl + "shedding=" + sheddingDropDown.value;
-  }
-  if (playfulnessDropDown.value !== "") {
-    apiUrl = apiUrl + "&playfulness=" + playfulnessDropDown.value;
-  }
-  if (trainabilityDropDown.value !== "") {
-    apiUrl = apiUrl + "&trainability=" + trainabilityDropDown.value;
-  }
-  if (energyDropDown.value !== "") {
-    apiUrl = apiUrl + "&energy=" + energyDropDown.value;
-  }
-  start(apiUrl);
-});

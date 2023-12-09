@@ -18,7 +18,7 @@ header {
 select {
   display: block;
   width: 100%;
-  max-width: 320px;
+  max-width: 400px;
   height: 50px;
   float: right;
   margin: 5px 0px;
@@ -112,6 +112,49 @@ a {
   /* filter: blur(0.7px); */
 }
 
+#search {
+  display: flex;
+  flex-direction: column;
+  margin: 4rem 0.5rem;
+  background-color: burlywood;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 5px;
+  color: black;
+}
+
+#search label {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 2.5rem 1rem 1rem
+}
+
+#searchBar {
+  display: flex;
+}
+
+#searchBar input {
+  display: block;
+  width: 100%;
+  height: 50px;
+  float: right;
+  margin: 5px 1rem 1rem;
+  padding: 0px 24px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  -ms-word-break: normal;
+  word-break: normal;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+#searchBar .fa-magnifying-glass {
+  align-self: center;
+  padding-right: 1rem;
+}
 #errorMessage {
   width: 100%;
 }
@@ -144,7 +187,7 @@ a {
   text-align: center;
 }
 
-#dogDiv img{
+#dogDiv img {
   height: 375px;
   width: auto;
 }
@@ -156,7 +199,7 @@ a {
   height: auto;
 }
 
-.imgAndFavBtn{
+.imgAndFavBtn {
   position: relative;
 }
 
@@ -169,7 +212,7 @@ a {
   touch-action: manipulation;
   transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
     transform 0.1s;
-    height: 40px;
+  height: 40px;
 }
 
 /* .imgAndBtnNext button {
@@ -278,14 +321,100 @@ a {
   display: flex;
   justify-content: space-evenly;
 }
-/* 
-.icon{
-  background: url("./editComment.png");
-        height: 40px;
-        width: 40px;
-        display: block;
-        float: left;
-} */
-/* .dogdisplay {
-  /* style dog
-} */
+
+/* modal */
+.modal-container {
+  margin: 60px auto;
+  padding-top: 0px;
+  position: relative;
+  width: 160px;
+  height: auto;
+}
+
+.modal-container .modal-content,
+.modal-container .modal-backdrop {
+  height: 0;
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in;
+}
+.modal-container .modal-close {
+  color: #aaa;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  padding-top: 3px;
+  background: #fff;
+  font-size: 16px;
+  width: 25px;
+  height: 25px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+.modal-container .modal-close:hover {
+  color: #333;
+}
+.modal-container .modal-content-btn {
+  position: absolute;
+  text-align: center;
+  cursor: pointer;
+  bottom: 20px;
+  right: 30px;
+  background: burlywood;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 20px 10px 0;
+}
+
+.modal-container .modal-content-btn:hover {
+  color: #fff;
+  background: rgb(173, 143, 105);
+}
+.modal-container #modal-toggle {
+  display: none;
+}
+.modal-container #modal-toggle.active ~ .modal-backdrop,
+.modal-container #modal-toggle:checked ~ .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+.modal-container #modal-toggle.active ~ .modal-content,
+.modal-container #modal-toggle:checked ~ .modal-content {
+  opacity: 1;
+  background-color: #fff;
+  max-width: 400px;
+  width: 400px;
+  height: 280px;
+  padding: 10px 30px;
+  position: fixed;
+  left: calc(50% - 200px);
+  top: 12%;
+  border-radius: 4px;
+  z-index: 999;
+  pointer-events: auto;
+  cursor: auto;
+  visibility: visible;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 400px) {
+  .modal-container #modal-toggle.active ~ .modal-content,
+  .modal-container #modal-toggle:checked ~ .modal-content {
+    left: 0;
+  }
+}
