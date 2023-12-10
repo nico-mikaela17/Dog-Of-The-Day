@@ -103,7 +103,8 @@ function createElements(dogsArr, index) {
 
   // FIXME: image details click
   img.addEventListener("click", () => {
-    showDetails(dogArr[index]);
+    console.log("img clicked");
+    showDetails(dogsArr[index]);
   });
   imgAndFavBtn.appendChild(img);
 
@@ -133,10 +134,34 @@ function showDetails(dog) {
   //FIXME:
   detailsDiv.classList.remove("hidden");
   detailsDiv.innerHTML = "";
-  // let breedName =
-  // let goodWith
-  // let goodWith
-  // let goodWith
+
+  let closeBtn = document.createElement("button");
+  closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+  closeBtn.addEventListener("click", closeDetails());
+  detailsDiv.appendChild(closeBtn);
+  let breedName = document.createElement("h3");
+  breedName.textContent = dog.name;
+  detailsDiv.appendChild(breedName);
+  let goodWithKids = document.createElement("p");
+  goodWithKids.textContent = `Good with Kids: ${dog.good_with_children}`;
+  detailsDiv.appendChild(goodWithKids);
+  let goodWithOtherDogs = document.createElement("p");
+  goodWithOtherDogs.textContent = `Good with other dogs: ${dog.good_with_other_dogs}`;
+  detailsDiv.appendChild(goodWithOtherDogs);
+  let goodWithStrangers = document.createElement("p");
+  goodWithStrangers.textContent = `Good with strangers: ${dog.good_with_strangers}`;
+  detailsDiv.appendChild(goodWithStrangers);
+  let drooling = document.createElement("p");
+  drooling.textContent = `Drooling: ${dog.drooling}`;
+  detailsDiv.appendChild(drooling);
+  let protectiveness = document.createElement("p");
+  protectiveness.textContent = `Protectiveness: ${dog.protectiveness}`;
+  detailsDiv.appendChild(protectiveness);
+  let barking = document.createElement("p");
+  barking.textContent = `Barking: ${dog.barking}`;
+  detailsDiv.appendChild(barking);
+
+  dogDiv.appendChild(detailsDiv);
   // create h3/p/some kind of close button
   // add text content/styling
   // add event listener for close button: closeDetails()
@@ -145,7 +170,7 @@ function showDetails(dog) {
 
 function closeDetails() {
   //FIXME:
-  // hide div: detailsDiv.classList.add("hidden")
+  detailsDiv.classList.toggle("hidden");
 }
 
 // Create a prev arrow button that calls the populateDOM function with an index one higher
