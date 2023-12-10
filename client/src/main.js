@@ -1,7 +1,8 @@
-//grab elements
+// Grab elements
 let apiUrl = "https://api.api-ninjas.com/v1/dogs?";
 let errorMessage = document.querySelector("#errorMessage");
 let dogDiv = document.querySelector("#dogDiv");
+let detailsDiv = document.querySelector("#detailsDiv");
 let commentDiv = document.querySelector("#commentDiv");
 let dogComment = document.querySelector("#dogComment");
 let favoriteBtn = document.querySelector("#favoriteBtn");
@@ -11,22 +12,16 @@ let searchIcon = document.querySelector("#searchIcon");
 searchIcon.style.cursor = "pointer";
 let searchInput = document.querySelector("#breed");
 
-//dropDowns
+// Dropdowns
 let sheddingDropDown = document.querySelector("#sheddingDropDown");
 let playfulnessDropDown = document.querySelector("#playfulnessDropDown");
 let trainabilityDropDown = document.querySelector("#trainabilityDropDown");
 let energyDropDown = document.querySelector("#energyDropDown");
 
-//find button
+// Find button
 let generateBtn = document.getElementById("generate");
 
-//createElements
-let imgAndBtnNext = document.createElement("div");
-let imgAndFavBtn = document.createElement("div");
-imgAndBtnNext.classList.add("imgAndBtnNext");
-imgAndFavBtn.classList.add("imgAndFavBtn");
-
-//fetch from the dogAPI
+// Fetch from the dogAPI
 function start(apiUrl) {
   fetch(apiUrl, {
     method: "GET",
@@ -39,16 +34,12 @@ function start(apiUrl) {
     .then((data) => {
       console.log(data);
       if (data.length === 0 || data.error) showErrorMessage();
-      else populateDOM(data);
+      else populateDOM(data, 0);
     })
     .finally(() => {});
 }
 
-//dropdowns
-sheddingDropDown.value;
-console.log(sheddingDropDown.value);
-
-//after clicking find
+// After clicking find
 generateBtn.addEventListener("click", () => {
   if (sheddingDropDown.value !== "") {
     apiUrl = apiUrl + "shedding=" + sheddingDropDown.value;
@@ -65,40 +56,54 @@ generateBtn.addEventListener("click", () => {
   start(apiUrl);
 });
 
-//If I can't find the dog I'm looking for
+// If I can't find the dog I'm looking for
 function showErrorMessage() {
   errorMessage.innerHTML = "";
-  errorMessage.classList.toggle("hidden");
-  dogDiv.classList.toggle("hidden");
+  errorMessage.classList.remove("hidden");
+  dogDiv.classList.add("hidden");
   let message = document.createElement("p");
   message.textContent = "No dogs here :(";
   errorMessage.appendChild(message);
 }
 
-//show a dog after I click find
-function populateDOM(dogsArr) {
-  dogDiv.style.display = "block";
+// Show/hide the correct div and check indexing before creating elements
+function populateDOM(dogsArr, index) {
+  if (dogDiv.classList.contains("hidden")) dogDiv.classList.remove("hidden");
   dogDiv.innerHTML = "";
-  errorMessage.style.display = "none";
+  errorMessage.classList.add("hidden");
 
-  let index = 0;
+  // Check if the array is empty, or we've indexed outside of it
   if (dogsArr.length === 0) {
-    let noMoreDogMessage = document.createElement("p");
-    noMoreDogMessage.textContent = "No more dogs to show :(";
-    imgAndBtnNext.appendChild(noMoreDogMessage);
+    showErrorMessage();
+  } else if (index === -1) {
+    createElements(dogsArr, dogsArr.length - 1);
+  } else if (index === dogsArr.length) {
+    createElements(dogsArr, 0);
   } else {
-    let currentDogShowing = document.createElement("p");
-    currentDogShowing.classList.add("currentDogShowing");
-    currentDogShowing.textContent = `Currently showing ${index + 1} of ${
-      dogsArr.length
-    } dogs`;
-    dogDiv.appendChild(currentDogShowing);
+    createElements(dogsArr, index);
   }
+}
+
+// Create the elements/info that fill the DOM
+function createElements(dogsArr, index) {
+  let imgAndBtnNext = document.createElement("div");
+  let imgAndFavBtn = document.createElement("div");
+  imgAndBtnNext.classList.add("imgAndBtnNext");
+  imgAndFavBtn.classList.add("imgAndFavBtn");
+
+  let currentDogShowing = document.createElement("p");
+  currentDogShowing.classList.add("currentDogShowing");
+  currentDogShowing.textContent = `Currently showing ${index + 1} of ${
+    dogsArr.length
+  } dogs`;
+  dogDiv.appendChild(currentDogShowing);
 
   let img = document.createElement("img");
   img.src = dogsArr[index].image_link;
+
+  // FIXME: image details click
   img.addEventListener("click", () => {
-    console.log("img clicked");
+    showDetails(dogArr[index]);
   });
   imgAndFavBtn.appendChild(img);
   // modalContainer.appendChild(modalContent);
@@ -111,89 +116,80 @@ function populateDOM(dogsArr) {
   makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
   makeFavBtn.classList.add("button-23", "makeFavBtn");
   makeFavBtn.addEventListener("click", () => {
-    commentDiv.classList.toggle("hidden");
+    commentDiv.classList.remove("hidden");
   });
   favoriteBtn.addEventListener("click", () => {
     saveFavorite(dogsArr[index]);
     dogComment.value = "";
-    commentDiv.classList.toggle("hidden");
+    commentDiv.classList.add("hidden");
   });
+  imgAndFavBtn.appendChild(makeFavBtn);
 
+  imgAndBtnNext.appendChild(createPrev(dogsArr, index));
+  imgAndBtnNext.appendChild(imgAndFavBtn);
+  imgAndBtnNext.appendChild(createNext(dogsArr, index));
+
+  dogDiv.appendChild(imgAndBtnNext);
+}
+
+function showDetails(dog) {
+  // show div: detailsDiv.classList.remove("hidden")
+  // clear div insides: detailsDiv.innerHTML = ''
+  // create h3/p/some kind of close button
+  // add text content/styling
+  // add event listener for close button: closeDetails()
+  // append all to detailsDiv
+}
+
+function closeDetails() {
+  // hide div: detailsDiv.classList.add("hidden")
+}
+
+// Create a prev arrow button that calls the populateDOM function with an index one higher
+function createNext(dogsArr, index) {
   let arrowBtnNext = document.createElement("button");
   arrowBtnNext.classList.add("arrowBtnNext");
   arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
 
   arrowBtnNext.addEventListener("click", () => {
     index++;
-    console.log(index);
-    //IF we reach the END ...
-    if (index === dogsArr.length) {
-      img.style.display = "none";
-      currentDogShowing.style.display = "none";
-      // arrowBtnNext.style.display = "none";
-      noMoreDogMessage.style.display = "block";
-    }
-    //IF  are on the slides? - showing dogs
-    else {
-      noMoreDogMessage.style.display = "none";
-      currentDogShowing.style.display = "block";
-      img.style.display = "block";
-      img.src = dogsArr[index].image_link;
-      currentDogShowing.textContent = `Currently showing ${index + 1} of ${
-        dogsArr.length
-      } dogs`;
-    }
+    populateDOM(dogsArr, index);
   });
 
+  return arrowBtnNext;
+}
+
+// Create a prev arrow button that calls the populateDOM function with an index one less
+function createPrev(dogsArr, index) {
   let arrowBtnPrev = document.createElement("button");
   arrowBtnPrev.classList.add("arrowBtnPrev");
   arrowBtnPrev.innerHTML = '<i class="fa-solid fa-caret-left"></i>';
 
-  // arrowBtnPrev.addEventListener("click", () => {
-  //   index = index - 1;
-  //   console.log(index);
-  //   //IF we go back on the first dog
-  //   if (index === -1) {
-  //     img.style.display = "none";
-  //     arrowBtnPrev.style.display = "none";
-  //     currentDogShowing.style.display = "none";
-  //     noMoreDogMessage.style.display = "block";
-  //     arrowBtnNext.style = {};
-  //   } else {
-  //     currentDogShowing.style.display = "block";
-  //     arrowBtnPrev.style.display = "flex";
-  //     noMoreDogMessage.style.display = "none";
-  //     img.src = dogsArr[index].image_link;
-  //     currentDogShowing.textContent = `Currently showing ${index - 1} of ${
-  //       dogsArr.length
-  //     } dogs`;
-  //   }
-  // });
-  imgAndBtnNext.appendChild(arrowBtnPrev);
-  imgAndBtnNext.appendChild(imgAndFavBtn);
-  imgAndBtnNext.appendChild(arrowBtnNext);
-  imgAndFavBtn.appendChild(makeFavBtn);
+  arrowBtnPrev.addEventListener("click", () => {
+    index = index - 1;
+    populateDOM(dogsArr, index);
+  });
 
-  dogDiv.appendChild(imgAndBtnNext);
-}
-
-//search a dog by the breed name
-function handleSearch() {
-  let searchTerm = searchInput.value.toLowerCase();
-  let foundDog = dogsArr.find((dog) => dog.name.toLowerCase() === searchTerm);
-
-  if (foundDog) {
-    populateDOM([foundDog]); // Pass an array with the found dog to the populateDOM function
-  } else {
-    showErrorMessage();
-  }
+  return arrowBtnPrev;
 }
 
 // Event listener for the search icon
-searchIcon.addEventListener("click", handleSearch());
+searchIcon.addEventListener("click", () => {
+  fetch(`https://api.api-ninjas.com/v1/dogs?name=${searchInput.value}`, {
+    method: "GET",
+    headers: {
+      "X-API-Key": "Fkx2KMLoA8Vpzwk9Lhwzjg==jS53MaNHG0MEepJO",
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.length === 0 || data.error) showErrorMessage();
+      else populateDOM(data, 0);
+    });
+});
 
-
-//clear filter dropdowns
+// Clear filter dropdowns
 clearFilterBtn.addEventListener("click", () => {
   sheddingDropDown.value = "";
   playfulnessDropDown.value = "";
@@ -201,7 +197,7 @@ clearFilterBtn.addEventListener("click", () => {
   energyDropDown.value = "";
 });
 
-//to create the fav card
+// To create the fav card
 function populateDog(dogData) {
   dogGallery.innerHTML = "";
   //console.log(dogData);
@@ -295,7 +291,7 @@ function populateDog(dogData) {
   });
 }
 
-//get data from the back back
+// Get data from the back back
 fetch("/api/dogs")
   .then((res) => res.json())
   .then((data) => populateDog(data));
