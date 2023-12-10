@@ -133,6 +133,7 @@ function createElements(dogsArr, index) {
 }
 
 function showDetails(dog) {
+  //FIXME:
   // show div: detailsDiv.classList.remove("hidden")
   // clear div insides: detailsDiv.innerHTML = ''
   // create h3/p/some kind of close button
@@ -142,6 +143,7 @@ function showDetails(dog) {
 }
 
 function closeDetails() {
+  //FIXME:
   // hide div: detailsDiv.classList.add("hidden")
 }
 

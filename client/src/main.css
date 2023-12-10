@@ -302,6 +302,8 @@ a {
   padding: 0.4em;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-bottom: 2rem;
+
 }
 
 .dogCard img {
@@ -349,5 +351,6 @@ a {
 
 #dogGallery {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
 }
