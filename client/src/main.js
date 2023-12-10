@@ -7,7 +7,7 @@ let dogComment = document.querySelector("#dogComment");
 let favoriteBtn = document.querySelector("#favoriteBtn");
 let dogGallery = document.querySelector("#dogGallery");
 let clearFilterBtn = document.querySelector("#clearFilterBtn");
-let searchIcon = document.querySelector(".fa-magnifying-glass");
+let searchIcon = document.querySelector("#searchIcon");
 searchIcon.style.cursor = "pointer";
 let searchInput = document.querySelector("#breed");
 
@@ -19,6 +19,12 @@ let energyDropDown = document.querySelector("#energyDropDown");
 
 //find button
 let generateBtn = document.getElementById("generate");
+
+//createElements
+let imgAndBtnNext = document.createElement("div");
+let imgAndFavBtn = document.createElement("div");
+imgAndBtnNext.classList.add("imgAndBtnNext");
+imgAndFavBtn.classList.add("imgAndFavBtn");
 
 //fetch from the dogAPI
 function start(apiUrl) {
@@ -73,10 +79,6 @@ function showErrorMessage() {
 function populateDOM(dogsArr) {
   dogDiv.style.display = "block";
   dogDiv.innerHTML = "";
-  let imgAndBtnNext = document.createElement("div");
-  let imgAndFavBtn = document.createElement("div");
-  imgAndBtnNext.classList.add("imgAndBtnNext");
-  imgAndFavBtn.classList.add("imgAndFavBtn");
   errorMessage.style.display = "none";
 
   let index = 0;
@@ -93,22 +95,11 @@ function populateDOM(dogsArr) {
     dogDiv.appendChild(currentDogShowing);
   }
 
-  // let modalContainer = document.createElement("div");
-  // let modalContent = document.createElement("div");
-  // let modalToggle = document.querySelector('.modal-toggle')
   let img = document.createElement("img");
   img.src = dogsArr[index].image_link;
-  // img.addEventListener("click", () => {
-  //   modalToggle.classList.toggle("hidden");
-  //   let breed = document.createElement("h2");
-  //   breed.textContent = dogsArr[index].name;
-  //   let horizontalLine = document.createElement('hr');
-  //   let moreDogInfo = document.createElement('p');
-  //   moreDogInfo.innerHTML = `Shedding ${dogsArr[index].shedding}`
-  //   modalContent.appendChild(breed);
-  //   modalContent.appendChild(horizontalLine)
-  //   modalContent.appendChild(moreDogInfo)
-  // });
+  img.addEventListener("click", () => {
+    console.log("img clicked");
+  });
   imgAndFavBtn.appendChild(img);
   // modalContainer.appendChild(modalContent);
 
@@ -127,80 +118,80 @@ function populateDOM(dogsArr) {
     dogComment.value = "";
     commentDiv.classList.toggle("hidden");
   });
-  // imgAndFavBtn.appendChild(modalContainer);
-  imgAndFavBtn.appendChild(makeFavBtn);
-  imgAndBtnNext.appendChild(imgAndFavBtn);
-  dogDiv.appendChild(imgAndBtnNext);
 
-  //search a dog by the breed name
-  searchIcon.addEventListener("click", () => {
-    console.log("button works");
-    if (searchInput.value.toLowerCase === dogsArr.name) {
-      populateDOM(dogsArr);
-    } else {
-      showErrorMessage();
+  let arrowBtnNext = document.createElement("button");
+  arrowBtnNext.classList.add("arrowBtnNext");
+  arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
+
+  arrowBtnNext.addEventListener("click", () => {
+    index++;
+    console.log(index);
+    //IF we reach the END ...
+    if (index === dogsArr.length) {
+      img.style.display = "none";
+      currentDogShowing.style.display = "none";
+      // arrowBtnNext.style.display = "none";
+      noMoreDogMessage.style.display = "block";
+    }
+    //IF  are on the slides? - showing dogs
+    else {
+      noMoreDogMessage.style.display = "none";
+      currentDogShowing.style.display = "block";
+      img.style.display = "block";
+      img.src = dogsArr[index].image_link;
+      currentDogShowing.textContent = `Currently showing ${index + 1} of ${
+        dogsArr.length
+      } dogs`;
     }
   });
+
+  let arrowBtnPrev = document.createElement("button");
+  arrowBtnPrev.classList.add("arrowBtnPrev");
+  arrowBtnPrev.innerHTML = '<i class="fa-solid fa-caret-left"></i>';
+
+  // arrowBtnPrev.addEventListener("click", () => {
+  //   index = index - 1;
+  //   console.log(index);
+  //   //IF we go back on the first dog
+  //   if (index === -1) {
+  //     img.style.display = "none";
+  //     arrowBtnPrev.style.display = "none";
+  //     currentDogShowing.style.display = "none";
+  //     noMoreDogMessage.style.display = "block";
+  //     arrowBtnNext.style = {};
+  //   } else {
+  //     currentDogShowing.style.display = "block";
+  //     arrowBtnPrev.style.display = "flex";
+  //     noMoreDogMessage.style.display = "none";
+  //     img.src = dogsArr[index].image_link;
+  //     currentDogShowing.textContent = `Currently showing ${index - 1} of ${
+  //       dogsArr.length
+  //     } dogs`;
+  //   }
+  // });
+  imgAndBtnNext.appendChild(arrowBtnPrev);
+  imgAndBtnNext.appendChild(imgAndFavBtn);
+  imgAndBtnNext.appendChild(arrowBtnNext);
+  imgAndFavBtn.appendChild(makeFavBtn);
+
+  dogDiv.appendChild(imgAndBtnNext);
 }
-//   let arrowBtnNext = document.createElement("button");
-//   arrowBtnNext.innerHTML = '<i class="fa-solid fa-caret-right"></i>';
 
-//   arrowBtnNext.addEventListener("click", () => {
-//     index++;
-//     console.log(index);
-//     //IF we reah the END ...
-//     if (index === dogsArr.length) {
-//       img.style.display = "none";
-//       currentDogShowing.style.display = "none";
-//       // arrowBtnNext.style.display = "none";
-//       noMoreDogMessage.style.display = "block";
-//     }
-//     //IF we on the slides? - showing dogs
-//     else {
-//       noMoreDogMessage.style.display = "none";
-//       currentDogShowing.style.display = "block";
-//       // arrowBtnNext.style.display = "flex";
-//       img.style.display = "none";
-//       img.src = dogsArr[index].image_link;
-//       currentDogShowing.textContent = `Currently showing ${index + 1} of ${
-//         dogsArr.length
-//       } dogs`;
-//     }
-//   });
+//search a dog by the breed name
+function handleSearch() {
+  let searchTerm = searchInput.value.toLowerCase();
+  let foundDog = dogsArr.find((dog) => dog.name.toLowerCase() === searchTerm);
 
-//   let arrowBtnPrev = document.createElement("button");
-//   arrowBtnPrev.innerHTML = '<i class="fa-solid fa-caret-left"></i>';
+  if (foundDog) {
+    populateDOM([foundDog]); // Pass an array with the found dog to the populateDOM function
+  } else {
+    showErrorMessage();
+  }
+}
 
-//   arrowBtnPrev.addEventListener("click", () => {
-//     index = index - 1;
-//     console.log(index);
-//     //IF we go back on the first dog
-//     if (index === -1) {
-//       img.style.display = "none";
-//       arrowBtnPrev.style.display = "none";
-//       currentDogShowing.style.display = "none";
-//       noMoreDogMessage.style.display = "block";
-//       arrowBtnNext.style = {};
-//     } else {
-//       currentDogShowing.style.display = "block";
-//       arrowBtnPrev.style.display = "flex";
-//       noMoreDogMessage.style.display = "none";
-//       img.src = dogsArr[index].image_link;
-//       currentDogShowing.textContent = `Currently showing ${index - 1} of ${
-//         dogsArr.length
-//       } dogs`;
-//     }
-//   });
+// Event listener for the search icon
+searchIcon.addEventListener("click", handleSearch());
 
-//   imgAndBtnNext.appendChild(arrowBtnPrev);
-
-//   imgAndBtnNext.appendChild(arrowBtnNext);
-
-// }
-
-// let favDogsTitle = document.createElement("h2");
-// favDogsTitle.textContent = "Favorite Dogs";
-// dogGallery.appendChild(favDogsTitle);
 
 //clear filter dropdowns
 clearFilterBtn.addEventListener("click", () => {
@@ -228,7 +219,6 @@ function populateDog(dogData) {
     removeCardBtn.style.backgroundColor = "white";
     removeCardBtn.addEventListener("click", () => {
       if (confirm("Do you want to remove this dog from your Favorites?")) {
-        console.log("hello");
         deleteDog(dog.id);
       }
     });
