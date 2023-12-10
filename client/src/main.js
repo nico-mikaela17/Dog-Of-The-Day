@@ -40,7 +40,7 @@ function start(apiUrl) {
 }
 
 // After clicking find
-generateBtn.addEventListener("click", () => {
+generateBtn.onclick = function () {
   if (sheddingDropDown.value !== "") {
     apiUrl = apiUrl + "shedding=" + sheddingDropDown.value;
   }
@@ -54,7 +54,7 @@ generateBtn.addEventListener("click", () => {
     apiUrl = apiUrl + "&energy=" + energyDropDown.value;
   }
   start(apiUrl);
-});
+};
 
 // If I can't find the dog I'm looking for
 function showErrorMessage() {
@@ -106,7 +106,6 @@ function createElements(dogsArr, index) {
     showDetails(dogArr[index]);
   });
   imgAndFavBtn.appendChild(img);
-  // modalContainer.appendChild(modalContent);
 
   let breed = document.createElement("h3");
   breed.textContent = dogsArr[index].name;
@@ -115,14 +114,12 @@ function createElements(dogsArr, index) {
   let makeFavBtn = document.createElement("button");
   makeFavBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
   makeFavBtn.classList.add("button-23", "makeFavBtn");
-  makeFavBtn.addEventListener("click", () => {
-    commentDiv.classList.remove("hidden");
-  });
-  favoriteBtn.addEventListener("click", () => {
+  makeFavBtn.onclick = function () {
+    commentDiv.classList.toggle("hidden");
+  };
+  favoriteBtn.onclick = function () {
     saveFavorite(dogsArr[index]);
-    dogComment.value = "";
-    commentDiv.classList.add("hidden");
-  });
+  };
   imgAndFavBtn.appendChild(makeFavBtn);
 
   imgAndBtnNext.appendChild(createPrev(dogsArr, index));
@@ -134,8 +131,12 @@ function createElements(dogsArr, index) {
 
 function showDetails(dog) {
   //FIXME:
-  // show div: detailsDiv.classList.remove("hidden")
-  // clear div insides: detailsDiv.innerHTML = ''
+  detailsDiv.classList.remove("hidden");
+  detailsDiv.innerHTML = "";
+  // let breedName =
+  // let goodWith
+  // let goodWith
+  // let goodWith
   // create h3/p/some kind of close button
   // add text content/styling
   // add event listener for close button: closeDetails()
@@ -167,16 +168,16 @@ function createPrev(dogsArr, index) {
   arrowBtnPrev.classList.add("arrowBtnPrev");
   arrowBtnPrev.innerHTML = '<i class="fa-solid fa-caret-left"></i>';
 
-  arrowBtnPrev.addEventListener("click", () => {
+  arrowBtnPrev.onclick = function () {
     index = index - 1;
     populateDOM(dogsArr, index);
-  });
+  };
 
   return arrowBtnPrev;
 }
 
 // Event listener for the search icon
-searchIcon.addEventListener("click", () => {
+searchIcon.onclick = function () {
   fetch(`https://api.api-ninjas.com/v1/dogs?name=${searchInput.value}`, {
     method: "GET",
     headers: {
@@ -189,7 +190,7 @@ searchIcon.addEventListener("click", () => {
       if (data.length === 0 || data.error) showErrorMessage();
       else populateDOM(data, 0);
     });
-});
+};
 
 // Clear filter dropdowns
 clearFilterBtn.addEventListener("click", () => {
@@ -202,7 +203,6 @@ clearFilterBtn.addEventListener("click", () => {
 // To create the fav card
 function populateDog(dogData) {
   dogGallery.innerHTML = "";
-  //console.log(dogData);
   dogData.forEach((dog) => {
     //create card
     let dogCard = document.createElement("div");
@@ -272,12 +272,12 @@ function populateDog(dogData) {
     saveBtn.textContent = "Save";
     saveBtn.classList.add("button-23", "hidden", "saveBtn");
 
-    editCommentBtn.addEventListener("click", () => {
+    editCommentBtn.onclick = function () {
       dogTextarea.classList.toggle("hidden");
       dogTextarea.placeholder = dog.comment;
       dogCommentDisplay.classList.toggle("hidden");
       saveBtn.classList.toggle("hidden");
-    });
+    };
 
     saveBtn.addEventListener("click", () => {
       editComment(dog.id, dogTextarea.value);
@@ -310,7 +310,12 @@ function saveFavorite(favDog) {
     }),
   })
     .then((res) => res.json())
-    .then((data) => populateDog(data));
+    .then((data) => {
+      dogComment.value = "";
+      commentDiv.classList.add("hidden");
+      populateDog(data);
+      console.log(data);
+    });
 }
 
 function editComment(id, comment) {
@@ -326,7 +331,6 @@ function editComment(id, comment) {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       populateDog(data);
     });
 }

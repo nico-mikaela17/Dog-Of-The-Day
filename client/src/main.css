@@ -233,7 +233,7 @@ a {
   z-index: 10;
 }
 
-.arrowBtnNext  {
+.arrowBtnNext {
   /* position: absolute;
   top: 44%;
   left: 64.5%; */
@@ -250,7 +250,7 @@ a {
   margin: 4rem 0.5rem;
 }
 
-.arrowBtnPrev{
+.arrowBtnPrev {
   background-color: #ffffff;
   border: 1px solid burlywood;
   border-radius: 5px;
@@ -264,17 +264,35 @@ a {
   margin: 4rem 0.5rem;
 }
 
-
+#commentDiv {
+  margin: 8rem 20rem 0 10rem;
+  padding-left: 20rem;
+}
 #commentDiv input {
   width: 100%;
-  max-width: 320px;
-  height: 50px;
-  margin: 1rem auto;
-  padding: 0px 24px;
+  max-width: 500px;
+  border: 1px solid burlywood;
+  border-radius: 5px;
   font-size: 16px;
   line-height: 1.75;
   color: #333;
   background-color: #ffffff;
+  width: 50%;
+}
+
+#commentDiv button {
+  background-color: #ffffff;
+  border: 1px solid burlywood;
+  border-radius: 5px;
+  font-size: 16px;
+  touch-action: manipulation;
+  transition: box-shadow 0.2s, -ms-transform 0.1s, -webkit-transform 0.1s,
+    transform 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+  height: 40px;
+  width: 20%;
+  margin-left: 1rem;
 }
 
 .hidden {
@@ -282,7 +300,6 @@ a {
 }
 
 #dogGallerySection {
-  margin-top: 10rem;
   padding-top: 5rem;
 }
 
@@ -292,7 +309,7 @@ a {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 5px;
   width: 20%;
-  margin: 2rem auto;
+  margin: 5rem auto 2rem;
   padding: 1rem;
 }
 
@@ -303,7 +320,6 @@ a {
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-bottom: 2rem;
-
 }
 
 .dogCard img {
