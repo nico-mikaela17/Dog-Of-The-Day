@@ -137,11 +137,9 @@ function showDetails(dog) {
 
   let closeBtn = document.createElement("button");
   closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  closeBtn.addEventListener("click", closeDetails());
+  closeBtn.addEventListener("click", closeDetails); // remove the parentheses here
   detailsDiv.appendChild(closeBtn);
-  let breedName = document.createElement("h3");
-  breedName.textContent = dog.name;
-  detailsDiv.appendChild(breedName);
+  
   let goodWithKids = document.createElement("p");
   goodWithKids.textContent = `Good with Kids: ${dog.good_with_children}`;
   detailsDiv.appendChild(goodWithKids);
@@ -167,6 +165,7 @@ function showDetails(dog) {
   // add event listener for close button: closeDetails()
   // append all to detailsDiv
 }
+
 
 function closeDetails() {
   //FIXME:
